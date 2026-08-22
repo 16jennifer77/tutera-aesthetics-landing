@@ -80,7 +80,7 @@
     .skip{position:absolute;left:-999px;top:0;background:var(--navy);color:#fff;padding:10px 18px;z-index:200;border-radius:var(--r)}
     .skip:focus{left:12px;top:12px}
     .wrap{max-width:1160px;margin:0 auto;padding:0 26px}
-    section[id]{scroll-margin-top:calc(var(--header-h) + 8px)}
+    section[id]{scroll-margin-top:calc(var(--header-h) + 20px - clamp(74px,9vw,118px))}   /* anchors land the first text ~20px under the header, not on the section padding (Jennifer 2026-08-21) */
     section{padding:clamp(74px,9vw,118px) 0}
 
     h1,h2,h3{font-family:var(--disp);font-weight:500;color:var(--ink)}
@@ -541,7 +541,7 @@
     <a class="brand" href="#top" aria-label="Tutera Medical, home"><img src="tutera-aesthetics-assets/tutera-logo.png" alt="Tutera Medical" width="215" height="63" decoding="async"></a>
     <ul class="nav-links">
       <li><a href="#signs">For you?</a></li>
-      <li><a href="#protocol">The menu</a></li>
+      <li><a href="#protocol">Treatments</a></li>
       <li><a href="#reviews">Reviews</a></li>
       <li><a href="#faq">FAQ</a></li>
     </ul>
@@ -555,7 +555,7 @@
   <div class="m-nav" id="m-nav">
     <ul>
       <li><a href="#signs">For you?</a></li>
-      <li><a href="#protocol">The menu</a></li>
+      <li><a href="#protocol">Treatments</a></li>
       <li><a href="#reviews">Reviews</a></li>
       <li><a href="#faq">FAQ</a></li>
     </ul>
@@ -1213,13 +1213,13 @@
     stats.forEach(function(b){io.observe(b)});
   })();
 
-  /* Mobile: any link to #start lands on the "Next step" copy, not the offer photo above it. */
+  /* Any link to #start lands on the very top of the offer card (photo included) right under the
+     header, every width: no section padding gap above it (Jennifer 2026-08-21). */
   (function(){
     var body=document.getElementById('consult'); if(!body)return;
-    var target=body.querySelector('.kicker')||body;   /* land just above the "Next step" kicker, photo fully out of view (ruling 08-18) */
+    var target=document.querySelector('#start .offer-card')||body;
     document.querySelectorAll('a[href="#start"]').forEach(function(a){
       a.addEventListener('click',function(e){
-        if(!window.matchMedia('(max-width:960px)').matches)return;
         e.preventDefault();
         var reduce=window.matchMedia('(prefers-reduced-motion:reduce)').matches;
         requestAnimationFrame(function(){
