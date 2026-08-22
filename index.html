@@ -489,6 +489,7 @@
       .creds-row{grid-template-columns:1fr 1fr}
       .rv-grid{grid-template-columns:1fr 1fr}
       .team-grid{grid-template-columns:1fr 1fr}
+      .team-grid .member:last-child{grid-column:1/-1;justify-self:center;width:calc(50% - clamp(7px,.9vw,10px))}   /* 5 providers: 2 + 2 + 1 centered (Jennifer 2026-08-21) */
       .creds-row li:nth-child(3){border-left:none}
       .creds-row li{border-top:1px solid var(--hair-soft)}
       .creds-row li:nth-child(-n+2){border-top:none}
@@ -507,7 +508,7 @@
       .plates{grid-template-columns:1fr}
       .form{grid-template-columns:1fr}
       .rv-grid{grid-template-columns:1fr}
-      .team-grid{grid-template-columns:1fr;max-width:420px;margin-left:auto;margin-right:auto}
+      .team-grid{max-width:460px;margin-left:auto;margin-right:auto}   /* phones keep the 2 + 2 + 1 layout, centered (Jennifer 2026-08-21) */
       .why-grid{grid-template-columns:1fr 1fr}
       .hero-visual{margin-left:0}
       .scope{left:auto;right:-8px;bottom:-38px;width:170px}
