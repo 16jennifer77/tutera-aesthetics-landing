@@ -480,7 +480,7 @@
     /* ============ responsive ============ */
     @media (max-width:960px){
       .hero-grid,.signs-grid,.approach-grid,.offer-card{grid-template-columns:1fr}
-      .film video,.film .fallback{object-position:85% 50%}   /* phones: pull the right-of-center subjects into the narrow crop (Jennifer 2026-08-21) */
+      .film .fallback{object-position:85% 50%}   /* phones: poster pulls the right-of-center subjects into the narrow crop; the video swaps to a per-take-framed mobile encode instead (Jennifer 2026-08-21) */
       /* stacked layouts: same offer photo as desktop, cover-cropped. */
       .offer-media{height:72vw;max-height:640px;overflow:hidden}
       .offer-media img{object-position:50% 62%}   /* stacked crop: chairs + statue + console whole, no clipped chandelier (Jennifer 2026-08-21) */
@@ -748,7 +748,7 @@
   <!-- Q4. WHY NOT THE OBVIOUS ALTERNATIVE: film band -->
   <section class="film" id="compare" aria-labelledby="film-h">
     <!-- Film band video (cut 2026-08-21 from Jennifer's four Google Flow takes: walk in > front room > mirror moment > rested; 3.4s windows, 0.4s crossfades; take 3 shifted down 120px in frame). data-src + preload=none: lazy-mounts as the band approaches, ALL widths incl. phones (Jennifer 2026-08-21, overrides the ads-law desktop gate). -->
-    <video muted loop playsinline preload="none" data-src="tutera-aesthetics-assets/h-film-band.mp4" aria-hidden="true"></video>
+    <video muted loop playsinline preload="none" data-src="tutera-aesthetics-assets/h-film-band.mp4" data-src-mobile="tutera-aesthetics-assets/h-film-band-mobile.mp4" aria-hidden="true"></video>
     <img class="fallback kb" src="tutera-aesthetics-assets/h-film-poster-mirror-consult.webp" width="1600" height="900" alt="A provider hands a patient a mirror in the Glendale treatment room, studio recreation" loading="lazy" decoding="async">
     <div class="wrap film-copy">
       <div class="film-head">
@@ -1284,7 +1284,8 @@
     if(reduce||!('IntersectionObserver' in window))return;
     function mount(){
       if(v.getAttribute('src'))return;
-      v.src=v.dataset.src; v.muted=true;
+      /* phones get the per-take-framed 640x1080 encode (walk-in framed a touch right of the others, Jennifer 2026-08-21); desktop gets the full-width cut */
+      v.src=(window.matchMedia('(max-width:960px)').matches&&v.dataset.srcMobile)||v.dataset.src; v.muted=true;
       v.addEventListener('playing',function(){if(fb){fb.style.transition='opacity .8s ease';fb.style.opacity='0'}});
       var p=v.play(); if(p&&p.catch)p.catch(function(){});
       new IntersectionObserver(function(es){es.forEach(function(x){
