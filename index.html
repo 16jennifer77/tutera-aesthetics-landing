@@ -206,8 +206,7 @@
     /* ============ 3. film band ============ */
     .film{position:relative;padding:0;min-height:min(60vh,540px);display:grid;align-items:center;overflow:clip;background:var(--navy)}
     .film video,.film .fallback{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
-    .film video{display:none}
-    @media (min-width:960px){.film video{display:block}}   /* films desktop-gated (Google Ads law) */
+    /* film plays on ALL widths incl. phones (Jennifer 2026-08-21, overrides the ads-law desktop gate) */
     .film .fallback{filter:grayscale(.08) contrast(1.02) brightness(.9)}
     @media (prefers-reduced-motion:no-preference){
       .film .fallback.kb{animation:kb 34s ease-in-out infinite alternate}
@@ -746,7 +745,7 @@
 
   <!-- Q4. WHY NOT THE OBVIOUS ALTERNATIVE: film band -->
   <section class="film" id="compare" aria-labelledby="film-h">
-    <!-- Film band video (cut 2026-08-21 from Jennifer's four Google Flow takes: walk in > front room > mirror moment > rested; 3.4s windows, 0.4s crossfades). data-src + preload=none: phones request 0 video bytes; the mount script wires it on >=960px only. -->
+    <!-- Film band video (cut 2026-08-21 from Jennifer's four Google Flow takes: walk in > front room > mirror moment > rested; 3.4s windows, 0.4s crossfades; take 3 shifted down 120px in frame). data-src + preload=none: lazy-mounts as the band approaches, ALL widths incl. phones (Jennifer 2026-08-21, overrides the ads-law desktop gate). -->
     <video muted loop playsinline preload="none" data-src="tutera-aesthetics-assets/h-film-band.mp4" aria-hidden="true"></video>
     <img class="fallback kb" src="tutera-aesthetics-assets/h-film-poster-mirror-consult.webp" width="1600" height="900" alt="A provider hands a patient a mirror in the Glendale treatment room, studio recreation" loading="lazy" decoding="async">
     <div class="wrap film-copy">
@@ -1272,17 +1271,15 @@
     });
   })();
 
-  /* Film band: desktop-only lazy mount (the C3 pattern). The <video> carries data-src + preload=none
-     so phones request 0 video bytes; >=960px viewports mount the clip when the band approaches, pause
-     it off-screen and in hidden tabs, and the ken-burns fallback fades out once it plays.
-     Reduced motion keeps the still. */
+  /* Film band: lazy mount on ALL widths incl. phones (Jennifer 2026-08-21). The <video> carries
+     data-src + preload=none so nothing loads until the band approaches; it pauses off-screen and in
+     hidden tabs, and the ken-burns fallback fades out once it plays. Reduced motion keeps the still. */
   (function(){
     var band=document.querySelector('.film');
     var v=band&&band.querySelector('video'), fb=band&&band.querySelector('.fallback');
     if(!band||!v||!v.dataset.src)return;
     var reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    var wide=window.matchMedia('(min-width:960px)').matches;
-    if(reduce||!wide||!('IntersectionObserver' in window))return;
+    if(reduce||!('IntersectionObserver' in window))return;
     function mount(){
       if(v.getAttribute('src'))return;
       v.src=v.dataset.src; v.muted=true;
